@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SteelBuild — Construcción en Steel Framing & Aislamiento Termoacústico</title>
+  <meta name="description" content="Construcción moderna en Steel Framing con aislamiento termoacústico proyectado de alta eficiencia. Más rápido, más eficiente, más sustentable." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: {
+              50:  '#fdf8f0',
+              100: '#f7edda',
+              200: '#ecd8b0',
+              300: '#dfc07e',
+              400: '#d4a654',
+              500: '#c4903a',
+              600: '#a97530',
+              700: '#8a5d28',
+              800: '#704c24',
+              900: '#5c3f20',
+            },
+            steel: {
+              50:  '#f4f6f8',
+              100: '#e4e8ed',
+              200: '#ccd4db',
+              300: '#a8b5c1',
+              400: '#7e909e',
+              500: '#637483',
+              600: '#4f5e6c',
+              700: '#404d58',
+              800: '#37414b',
+              900: '#313940',
+            },
+            accent: '#e85d04',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Hero gradient overlay */
+    .hero-bg {
+      background: linear-gradient(135deg, #313940 0%, #404d58 40%, #5c3f20 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Steel grid pattern for sections */
+    .steel-pattern {
+      background-color: #f4f6f8;
+      background-image: linear-gradient(rgba(99,116,131,0.08) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(99,116,131,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Process step connector */
+    .process-connector {
+      position: relative;
+    }
+    .process-connector::after {
+      content: '';
+      position: absolute;
+      top: 40px;
+      right: -50%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #e85d04, #c4903a);
+      z-index: 0;
+    }
+    @media (max-width: 768px) {
+      .process-connector::after { display: none; }
+    }
+
+    /* Floating nav */
+    .nav-scrolled {
+      background: rgba(49, 57, 64, 0.97) !important;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    }
+
+    /* Card hover lift */
+    .card-lift {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    /* Gallery item */
+    .gallery-item {
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .gallery-item:hover {
+      transform: scale(1.03);
+    }
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+    .gallery-overlay {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* CTA pulse */
+    @keyframes pulse-orange {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232, 93, 4, 0.5); }
+      50% { box-shadow: 0 0 0 12px rgba(232, 93, 4, 0); }
+    }
+    .cta-pulse {
+      animation: pulse-orange 2.5s infinite;
+    }
+
+    /* Counter animation */
+    .stat-number {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Form input focus */
+    .form-input:focus {
+      outline: none;
+      border-color: #e85d04;
+      box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.15);
+    }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+    }
+    #mobile-menu.open {
+      max-height: 400px;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="font-sans text-steel-800 antialiased">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" class="w-6 h-6">
+              <path d="M3 21V8l9-5 9 5v13" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 21V12h6v9" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="3" y1="21" x2="21" y2="21" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <span class="text-white font-800 text-xl tracking-tight font-extrabold">Steel<span class="text-accent">Build</span></span>
+            <p class="text-steel-300 text-xs -mt-0.5 hidden sm:block">Construcción de Alta Eficiencia</p>
+          </div>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#proceso" class="text-steel-200 hover:text-white text-sm font-medium transition-colors">Proceso</a>
+          <a href="#beneficios" class="text-steel-200 hover:text-white text-sm font-medium transition-colors">Beneficios</a>
+          <a href="#galeria" class="text-steel-200 hover:text-white text-sm font-medium transition-colors">Galería</a>
+          <a href="#nosotros" class="text-steel-200 hover:text-white text-sm font-medium transition-colors">Nosotros</a>
+          <a href="#contacto" class="bg-accent hover:bg-orange-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors cta-pulse">
+            Cotizá tu Obra
+          </a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="menu-toggle" class="md:hidden text-white p-2" aria-label="Menú">
+          <svg id="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6">
+            <line x1="3" y1="6" x2="21" y2="6" stroke-linecap="round"/>
+            <line x1="3" y1="12" x2="21" y2="12" stroke-linecap="round"/>
+            <line x1="3" y1="18" x2="21" y2="18" stroke-linecap="round"/>
+          </svg>
+          <svg id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6 hidden">
+            <line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round"/>
+            <line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="md:hidden">
+        <div class="pt-4 pb-2 space-y-1">
+          <a href="#proceso" class="block text-steel-200 hover:text-white py-2 text-sm font-medium">Proceso</a>
+          <a href="#beneficios" class="block text-steel-200 hover:text-white py-2 text-sm font-medium">Beneficios</a>
+          <a href="#galeria" class="block text-steel-200 hover:text-white py-2 text-sm font-medium">Galería</a>
+          <a href="#nosotros" class="block text-steel-200 hover:text-white py-2 text-sm font-medium">Nosotros</a>
+          <a href="#contacto" class="block bg-accent text-white text-center py-2.5 rounded-lg text-sm font-semibold mt-3">Cotizá tu Obra</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero-bg min-h-screen flex items-center relative pt-20">
+
+    <!-- Decorative steel beams -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-0 right-0 w-1/2 h-full opacity-10">
+        <!-- Vertical beams -->
+        <div class="absolute top-0 left-1/4 w-1 h-full bg-steel-300"></div>
+        <div class="absolute top-0 left-2/4 w-0.5 h-full bg-steel-300"></div>
+        <div class="absolute top-0 left-3/4 w-1 h-full bg-steel-300"></div>
+        <!-- Horizontal beams -->
+        <div class="absolute top-1/4 left-0 w-full h-0.5 bg-steel-300"></div>
+        <div class="absolute top-1/2 left-0 w-full h-0.5 bg-steel-300"></div>
+        <div class="absolute top-3/4 left-0 w-full h-0.5 bg-steel-300"></div>
+        <!-- Diagonal -->
+        <div class="absolute top-0 left-0 w-full h-full" style="background: linear-gradient(135deg, transparent 49%, rgba(180,192,202,0.15) 49%, rgba(180,192,202,0.15) 51%, transparent 51%);"></div>
+      </div>
+      <!-- Orange accent line -->
+      <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-sand-400 to-accent"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center py-16 lg:py-24">
+
+        <!-- Left: Copy -->
+        <div class="relative z-10">
+          <div class="inline-flex items-center gap-2 bg-accent/20 border border-accent/40 rounded-full px-4 py-1.5 mb-6">
+            <span class="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+            <span class="text-accent text-sm font-semibold tracking-wide uppercase">Tecnología Habitacional Avanzada</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
+            Tu Casa en
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sand-300 to-accent">
+              Tiempo Récord.
+            </span>
+            <br/>Con el Confort que Merece.
+          </h1>
+
+          <p class="text-steel-300 text-lg lg:text-xl leading-relaxed mb-8 max-w-xl">
+            Construimos con <strong class="text-sand-300">Steel Framing</strong> y aislamiento termoacústico proyectado de alta densidad. 
+            Hasta un <strong class="text-accent">60% menos tiempo</strong> de obra y más del <strong class="text-accent">40% de ahorro</strong> en energía frente a la construcción tradicional.
+          </p>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-4 mb-10">
+            <div class="text-center">
+              <div class="text-3xl font-black text-accent stat-number">-60%</div>
+              <div class="text-steel-400 text-xs mt-1">Tiempo de obra</div>
+            </div>
+            <div class="text-center border-x border-steel-600">
+              <div class="text-3xl font-black text-sand-300 stat-number">+40%</div>
+              <div class="text-steel-400 text-xs mt-1">Ahorro energético</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-black text-white stat-number">50+</div>
+              <div class="text-steel-400 text-xs mt-1">Obras realizadas</div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#contacto" class="bg-accent hover:bg-orange-600 text-white font-bold text-base px-8 py-4 rounded-xl transition-all duration-200 text-center shadow-xl shadow-orange-900/30 hover:shadow-orange-800/40 hover:-translate-y-0.5">
+              Solicitá tu Presupuesto Gratis
+            </a>
+            <a href="#proceso" class="flex items-center justify-center gap-2 border border-steel-500 hover:border-sand-400 text-steel-200 hover:text-white font-semibold px-6 py-4 rounded-xl transition-all duration-200">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>
+              Ver el proceso
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: House mockup visual -->
+        <div class="relative z-10 hidden lg:block">
+          <div class="relative">
+            <!-- Main house card -->
+            <div class="bg-sand-100/10 backdrop-blur-sm border border-sand-400/20 rounded-2xl overflow-hidden shadow-2xl">
+              <!-- House illustration placeholder -->
+              <div class="aspect-[4/3] bg-gradient-to-br from-sand-700 via-sand-600 to-steel-700 flex items-center justify-center relative overflow-hidden">
+                <!-- Abstract house silhouette -->
+                <div class="absolute inset-0 flex items-end justify-center pb-8">
+                  <!-- House shape -->
+                  <div class="relative">
+                    <!-- Walls -->
+                    <div class="w-64 h-40 bg-sand-400/80 rounded-sm relative">
+                      <!-- Windows -->
+                      <div class="absolute top-6 left-6 w-16 h-12 bg-steel-800/60 border-2 border-sand-200/40 rounded-sm"></div>
+                      <div class="absolute top-6 right-6 w-16 h-12 bg-steel-800/60 border-2 border-sand-200/40 rounded-sm"></div>
+                      <!-- Door -->
+                      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-20 bg-steel-700/60 border-2 border-sand-200/40 rounded-t-sm"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Floating tech indicators -->
+                <div class="absolute top-4 left-4 bg-steel-900/80 backdrop-blur-sm rounded-lg px-3 py-2 border border-steel-500/30">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span class="text-white text-xs font-medium">Steel Framing</span>
+                  </div>
+                </div>
+                <div class="absolute top-4 right-4 bg-steel-900/80 backdrop-blur-sm rounded-lg px-3 py-2 border border-accent/30">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                    <span class="text-white text-xs font-medium">Aislamiento proyectado</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-4 bg-steel-900/50">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sand-300 font-semibold text-sm">Vivienda tipo ejemplo</p>
+                    <p class="text-steel-400 text-xs">45 m² — Terminada en 90 días</p>
+                  </div>
+                  <div class="bg-accent/20 border border-accent/40 rounded-lg px-3 py-1">
+                    <span class="text-accent text-xs font-bold">LLAVE EN MANO</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating cards -->
+            <div class="absolute -left-8 top-1/3 bg-white rounded-xl shadow-xl p-4 border border-sand-100">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" class="w-5 h-5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-steel-800">Estructura aprobada</p>
+                  <p class="text-xs text-steel-500">CIRSOC 303</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="absolute -right-8 bottom-1/3 bg-white rounded-xl shadow-xl p-4 border border-orange-100">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2" class="w-5 h-5"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 5a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5z" fill="#e85d04" fill-opacity="0.15"/><circle cx="12" cy="12" r="3" fill="#e85d04"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-steel-800">Eficiencia A+</p>
+                  <p class="text-xs text-steel-500">Certificación energética</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+      <span class="text-steel-400 text-xs">Conocé el proceso</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#637483" stroke-width="2" class="w-5 h-5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESO CONSTRUCTIVO ===================== -->
+  <section id="proceso" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16">
+        <span class="inline-block bg-sand-100 text-sand-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-4">Metodología de Obra</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-steel-800 mb-4">
+          De la Estructura al Hogar.<br/>
+          <span class="text-accent">Sin Ladrillos. Sin Esperas.</span>
+        </h2>
+        <p class="text-steel-500 text-lg max-w-2xl mx-auto">Un sistema industrializado que transforma acero galvanizado en un hogar confortable y eficiente en fracción del tiempo.</p>
+      </div>
+
+      <!-- Process steps -->
+      <div class="grid md:grid-cols-3 gap-8 lg:gap-12 relative">
+
+        <!-- Step 1: Estructura -->
+        <div class="relative group">
+          <div class="card-lift bg-white border border-steel-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg">
+            <!-- Visual mockup -->
+            <div class="h-48 bg-gradient-to-br from-steel-700 to-steel-900 flex items-center justify-center relative overflow-hidden">
+              <!-- Steel frame grid illustration -->
+              <div class="absolute inset-0 opacity-20">
+                <div class="grid grid-cols-5 h-full">
+                  <div class="border-r border-steel-300 h-full"></div>
+                  <div class="border-r border-steel-300 h-full"></div>
+                  <div class="border-r border-steel-300 h-full"></div>
+                  <div class="border-r border-steel-300 h-full"></div>
+                  <div class="h-full"></div>
+                </div>
+                <div class="absolute inset-0 grid grid-rows-4">
+                  <div class="border-b border-steel-300 w-full"></div>
+                  <div class="border-b border-steel-300 w-full"></div>
+                  <div class="border-b border-steel-300 w-full"></div>
+                  <div class="w-full"></div>
+                </div>
+              </div>
+              <div class="relative z-10 text-center">
+                <svg viewBox="0 0 80 80" fill="none" class="w-20 h-20 mx-auto mb-2">
+                  <!-- Simplified frame structure -->
+                  <rect x="5" y="60" width="70" height="4" rx="2" fill="#a8b5c1"/>
+                  <rect x="5" y="15" width="4" height="49" rx="2" fill="#a8b5c1"/>
+                  <rect x="38" y="15" width="4" height="49" rx="2" fill="#a8b5c1"/>
+                  <rect x="71" y="15" width="4" height="49" rx="2" fill="#a8b5c1"/>
+                  <rect x="5" y="15" width="70" height="4" rx="2" fill="#a8b5c1"/>
+                  <rect x="5" y="37" width="70" height="2" rx="1" fill="#7e909e"/>
+                  <line x1="9" y1="19" x2="38" y2="60" stroke="#637483" stroke-width="2"/>
+                  <line x1="42" y1="19" x2="71" y2="60" stroke="#637483" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="absolute top-3 left-3 bg-accent text-white text-xs font-black px-2.5 py-1 rounded-md">01</div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-steel-800 mb-3">Estructura Steel Framing</h3>
+              <p class="text-steel-500 text-sm leading-relaxed mb-4">
+                Perfiles de acero galvanizado ASTM conforman un esqueleto preciso, liviano y antisísmico. Se montan en días sobre la losa, eliminando meses de albañilería húmeda.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Acero galvanizado calibre 18 – 25G
+                </li>
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Montaje en seco — sin agua, sin barro
+                </li>
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Resistencia sísmica comprobada
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Connector arrow -->
+          <div class="hidden md:flex absolute top-24 -right-6 z-10 w-12 h-12 items-center justify-center bg-white border-2 border-sand-200 rounded-full shadow-md">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2.5" class="w-5 h-5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Step 2: Aislamiento -->
+        <div class="relative group">
+          <div class="card-lift bg-white border border-steel-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg">
+            <div class="h-48 bg-gradient-to-br from-sand-600 to-sand-800 flex items-center justify-center relative overflow-hidden">
+              <!-- Texture illustration for spray insulation -->
+              <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.4) 1px, transparent 0); background-size: 8px 8px;"></div>
+              <div class="relative z-10 text-center">
+                <svg viewBox="0 0 80 80" fill="none" class="w-20 h-20 mx-auto mb-2">
+                  <!-- Spray nozzle and material -->
+                  <rect x="10" y="30" width="35" height="30" rx="3" fill="rgba(180,150,100,0.8)"/>
+                  <rect x="15" y="35" width="4" height="20" rx="2" fill="rgba(140,120,80,0.6)"/>
+                  <rect x="25" y="35" width="4" height="20" rx="2" fill="rgba(140,120,80,0.6)"/>
+                  <rect x="35" y="35" width="4" height="20" rx="2" fill="rgba(140,120,80,0.6)"/>
+                  <!-- Spray gun -->
+                  <path d="M50 28 L65 18 L68 22 L60 30 L55 32 Z" fill="#7e909e"/>
+                  <circle cx="68" cy="20" r="4" fill="#637483"/>
+                  <!-- Spray particles -->
+                  <circle cx="42" cy="40" r="2" fill="rgba(196,144,58,0.7)"/>
+                  <circle cx="46" cy="35" r="1.5" fill="rgba(196,144,58,0.5)"/>
+                  <circle cx="44" cy="28" r="1" fill="rgba(196,144,58,0.4)"/>
+                </svg>
+              </div>
+              <div class="absolute top-3 left-3 bg-sand-700 text-white text-xs font-black px-2.5 py-1 rounded-md">02</div>
+              <!-- Thickness indicator -->
+              <div class="absolute right-3 top-3 bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1 text-white text-xs font-bold">
+                8–12 cm
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-steel-800 mb-3">Aislamiento Proyectado</h3>
+              <p class="text-steel-500 text-sm leading-relaxed mb-4">
+                Revestimiento termoacústico proyectado directamente sobre los perfiles, rellenando cada cavidad. El resultado es una barrera continua sin puentes térmicos que maximiza el confort interior.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Espesor 8–12 cm en paredes y techo
+                </li>
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Sin puentes térmicos — cobertura total
+                </li>
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Efecto acústico —  reducción de ruido
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Connector -->
+          <div class="hidden md:flex absolute top-24 -right-6 z-10 w-12 h-12 items-center justify-center bg-white border-2 border-sand-200 rounded-full shadow-md">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2.5" class="w-5 h-5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Step 3: Acabado EIFS -->
+        <div class="relative group">
+          <div class="card-lift bg-white border border-steel-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg">
+            <div class="h-48 bg-gradient-to-br from-sand-300 to-sand-500 flex items-center justify-center relative overflow-hidden">
+              <!-- Texture illustration -->
+              <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 8px);"></div>
+              <div class="relative z-10 text-center">
+                <svg viewBox="0 0 80 80" fill="none" class="w-20 h-20 mx-auto mb-2">
+                  <!-- House with finish -->
+                  <rect x="15" y="45" width="50" height="25" rx="2" fill="rgba(196,144,58,0.9)"/>
+                  <polygon points="10,45 40,20 70,45" fill="rgba(170,120,50,0.8)"/>
+                  <rect x="28" y="52" width="12" height="18" rx="1" fill="rgba(255,255,255,0.4)"/>
+                  <rect x="45" y="52" width="10" height="10" rx="1" fill="rgba(255,255,255,0.4)"/>
+                  <!-- Finish layer indicator -->
+                  <rect x="15" y="45" width="50" height="3" rx="1" fill="rgba(255,255,255,0.5)"/>
+                </svg>
+              </div>
+              <div class="absolute top-3 left-3 bg-sand-700 text-white text-xs font-black px-2.5 py-1 rounded-md">03</div>
+              <div class="absolute bottom-3 right-3 bg-white/30 backdrop-blur-sm rounded-lg px-2 py-1 text-white text-xs font-bold">
+                Sistema EIFS
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-steel-800 mb-3">Acabado Exterior EIFS</h3>
+              <p class="text-steel-500 text-sm leading-relaxed mb-4">
+                Revoque polimérico sobre malla de fibra de vidrio que aporta la textura definitiva. Impermeabilizable, resistente a la intemperie y estéticamente moderno. Listo para habitar.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Textura arena / mono capa
+                </li>
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Impermeabilidad garantizada
+                </li>
+                <li class="flex items-center gap-2 text-xs text-steel-600">
+                  <svg viewBox="0 0 20 20" fill="#e85d04" class="w-4 h-4 flex-shrink-0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z"/></svg>
+                  Amplia paleta de colores y texturas
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline strip -->
+      <div class="mt-16 bg-steel-50 rounded-2xl p-6 border border-steel-100">
+        <p class="text-center text-steel-600 font-semibold mb-6 text-sm uppercase tracking-wider">Línea de tiempo estimada — Vivienda de 60 m²</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="text-center">
+            <div class="text-accent font-black text-2xl">Sem 1–2</div>
+            <div class="text-steel-600 text-sm mt-1">Losa + Estructura</div>
+          </div>
+          <div class="text-center">
+            <div class="text-sand-500 font-black text-2xl">Sem 3–4</div>
+            <div class="text-steel-600 text-sm mt-1">Aislamiento proyectado</div>
+          </div>
+          <div class="text-center">
+            <div class="text-sand-600 font-black text-2xl">Sem 5–6</div>
+            <div class="text-steel-600 text-sm mt-1">Instalaciones + EIFS</div>
+          </div>
+          <div class="text-center">
+            <div class="text-steel-700 font-black text-2xl">Sem 7–8</div>
+            <div class="text-steel-600 text-sm mt-1">Terminaciones + Entrega</div>
+          </div>
+        </div>
+        <div class="mt-4 h-2 bg-steel-200 rounded-full overflow-hidden">
+          <div class="h-full rounded-full bg-gradient-to-r from-accent via-sand-400 to-steel-400 w-full"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BENEFICIOS TÉCNICOS ===================== -->
+  <section id="beneficios" class="py-20 lg:py-28 steel-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block bg-accent/10 text-accent text-sm font-semibold px-4 py-1.5 rounded-full mb-4">Ventajas Técnicas</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-steel-800 mb-4">
+          Construido con Ciencia.<br/>
+          <span class="text-steel-500">Diseñado para Durar.</span>
+        </h2>
+        <p class="text-steel-500 text-lg max-w-2xl mx-auto">Cada decisión técnica en nuestras obras responde a un objetivo: darle el máximo confort al menor costo operativo posible.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Benefit 1: Térmica -->
+        <div class="card-lift bg-white rounded-2xl p-6 border border-steel-100 shadow-sm text-center group">
+          <div class="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2" class="w-8 h-8">
+              <path d="M12 2a2 2 0 0 1 2 2v10a4 4 0 1 1-4 0V4a2 2 0 0 1 2-2z" stroke-linecap="round"/>
+              <circle cx="12" cy="18" r="1" fill="#e85d04"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-steel-800 mb-3">Aislamiento Térmico</h3>
+          <p class="text-steel-500 text-sm leading-relaxed">
+            Hasta 8–12 cm de material proyectado de celulosa/fibra mineral. Mantiene temperaturas interiores estables todo el año, reduciendo el uso de climatización.
+          </p>
+          <div class="mt-4 pt-4 border-t border-steel-100">
+            <span class="text-2xl font-black text-accent">R-22</span>
+            <span class="text-steel-400 text-xs block">Valor de resistencia térmica</span>
+          </div>
+        </div>
+
+        <!-- Benefit 2: Rapidez -->
+        <div class="card-lift bg-white rounded-2xl p-6 border border-steel-100 shadow-sm text-center group">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" class="w-8 h-8">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-steel-800 mb-3">Obra Seca & Rápida</h3>
+          <p class="text-steel-500 text-sm leading-relaxed">
+            Sin tiempos de curado ni secado. El sistema de obra seca permite entregar viviendas habilitadas hasta un 60% antes que la construcción convencional.
+          </p>
+          <div class="mt-4 pt-4 border-t border-steel-100">
+            <span class="text-2xl font-black text-blue-600">60 días</span>
+            <span class="text-steel-400 text-xs block">Desde cimientos a llave en mano</span>
+          </div>
+        </div>
+
+        <!-- Benefit 3: Sustentabilidad -->
+        <div class="card-lift bg-white rounded-2xl p-6 border border-steel-100 shadow-sm text-center group">
+          <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" class="w-8 h-8">
+              <path d="M2 22c1.25-1.25 2.5-5 6-5 1.5 0 3 .5 4.5.5C16 17.5 17.5 14 22 14" stroke-linecap="round"/>
+              <path d="M22 2v12c-4.5 0-6 3.5-9.5 3.5C9 17.5 7.5 17 6 17c-3.5 0-4.75 3.75-6 5" stroke-linecap="round"/>
+              <path d="M16 6s-1 2-4 3-4 5-4 5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-steel-800 mb-3">Sustentabilidad</h3>
+          <p class="text-steel-500 text-sm leading-relaxed">
+            El acero es 100% reciclable. Los materiales de aislamiento proyectado tienen baja huella de carbono. Menor generación de escombros vs. construcción tradicional.
+          </p>
+          <div class="mt-4 pt-4 border-t border-steel-100">
+            <span class="text-2xl font-black text-green-600">-70%</span>
+            <span class="text-steel-400 text-xs block">Menos residuos de construcción</span>
+          </div>
+        </div>
+
+        <!-- Benefit 4: Durabilidad -->
+        <div class="card-lift bg-white rounded-2xl p-6 border border-steel-100 shadow-sm text-center group">
+          <div class="w-16 h-16 bg-gradient-to-br from-steel-100 to-steel-200 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#404d58" stroke-width="2" class="w-8 h-8">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-steel-800 mb-3">Durabilidad</h3>
+          <p class="text-steel-500 text-sm leading-relaxed">
+            El acero galvanizado resiste la corrosión por décadas. No se agrieta, no se pudre, no se mueve. Estructura diseñada para soportar cargas sísmicas y vientos fuertes.
+          </p>
+          <div class="mt-4 pt-4 border-t border-steel-100">
+            <span class="text-2xl font-black text-steel-700">+50 años</span>
+            <span class="text-steel-400 text-xs block">Vida útil estimada</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional benefits row -->
+      <div class="grid sm:grid-cols-3 gap-6 mt-6">
+        <div class="bg-white rounded-xl p-5 border border-steel-100 flex items-start gap-4">
+          <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" class="w-5 h-5"><path d="M9 18V5l12-2v13" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div>
+            <p class="font-bold text-steel-800 text-sm">Aislamiento acústico</p>
+            <p class="text-steel-500 text-xs mt-1">Reducción de ruidos externos e internos gracias al relleno continuo sin cavidades.</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-steel-100 flex items-start gap-4">
+          <div class="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" class="w-5 h-5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <p class="font-bold text-steel-800 text-sm">Ahorro energético real</p>
+            <p class="text-steel-500 text-xs mt-1">Menor consumo de calefacción y refrigeración. Factura eléctrica reducida desde el primer mes.</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-steel-100 flex items-start gap-4">
+          <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" class="w-5 h-5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <p class="font-bold text-steel-800 text-sm">Resistencia al fuego</p>
+            <p class="text-steel-500 text-xs mt-1">Los materiales proyectados ofrecen resistencia al fuego clase B1, mejorando la seguridad del hogar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALERÍA ===================== -->
+  <section id="galeria" class="py-20 lg:py-28 bg-steel-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block bg-accent/20 text-accent text-sm font-semibold px-4 py-1.5 rounded-full mb-4">Nuestras Obras</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4">
+          Resultados que Hablan
+          <span class="text-sand-300">por Sí Solos</span>
+        </h2>
+        <p class="text-steel-400 text-lg max-w-2xl mx-auto">Cada obra es un testimonio de calidad, eficiencia y diseño. Aquí mostramos el proceso real de uno de nuestros proyectos.</p>
+      </div>
+
+      <!-- Gallery grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 lg:gap-4">
+
+        <!-- Large item: Final result -->
+        <div class="col-span-2 row-span-2 relative overflow-hidden rounded-2xl gallery-item cursor-pointer group" style="min-height: 280px;">
+          <div class="w-full h-full bg-gradient-to-br from-sand-400 to-sand-700 flex items-center justify-center" style="min-height: 280px;">
+            <!-- Placeholder representing photo 1/6: Final exterior -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+              <div class="w-20 h-20 mb-4 opacity-40">
+                <svg viewBox="0 0 80 80" fill="none" class="w-full h-full">
+                  <rect x="10" y="40" width="60" height="30" rx="3" fill="white"/>
+                  <polygon points="5,40 40,15 75,40" fill="rgba(255,255,255,0.7)"/>
+                  <rect x="25" y="48" width="14" height="22" rx="1" fill="rgba(160,120,80,0.6)"/>
+                  <rect x="46" y="50" width="12" height="12" rx="1" fill="rgba(160,120,80,0.6)"/>
+                </svg>
+              </div>
+              <p class="text-white font-bold text-sm opacity-60">📸 Tu foto irá aquí</p>
+              <p class="text-sand-200 text-xs mt-1 opacity-50">Acabado exterior final — Vista frontal</p>
+            </div>
+            <!-- Overlay on hover -->
+            <div class="gallery-overlay absolute inset-0 bg-accent/80 flex flex-col items-center justify-center text-white">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="w-10 h-10 mb-3"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              <p class="font-bold">Acabado Final</p>
+              <p class="text-sm opacity-80">Revoque texturado arena</p>
+            </div>
+          </div>
+          <div class="absolute bottom-4 left-4 bg-steel-900/80 backdrop-blur-sm rounded-lg px-3 py-1.5">
+            <span class="text-white text-xs font-semibold">Acabado Final</span>
+          </div>
+        </div>
+
+        <!-- Small item: Structure -->
+        <div class="relative overflow-hidden rounded-2xl gallery-item cursor-pointer" style="min-height: 130px;">
+          <div class="w-full h-full bg-gradient-to-br from-steel-600 to-steel-900 flex items-center justify-center" style="min-height: 130px;">
+            <div class="text-center p-3">
+              <div class="w-10 h-10 mx-auto mb-2 opacity-40">
+                <svg viewBox="0 0 40 40" fill="none" class="w-full h-full">
+                  <rect x="4" y="30" width="32" height="3" rx="1" fill="white"/>
+                  <rect x="4" y="8" width="3" height="24" rx="1" fill="white"/>
+                  <rect x="18" y="8" width="3" height="24" rx="1" fill="white"/>
+                  <rect x="33" y="8" width="3" height="24" rx="1" fill="white"/>
+                  <rect x="4" y="8" width="32" height="3" rx="1" fill="white"/>
+                </svg>
+              </div>
+              <p class="text-white text-xs opacity-50">Estructura Steel Framing</p>
+            </div>
+          </div>
+          <div class="gallery-overlay absolute inset-0 bg-steel-700/80 flex items-center justify-center text-white">
+            <p class="font-semibold text-sm">Estructura</p>
+          </div>
+          <div class="absolute bottom-2 left-2 bg-steel-900/80 rounded px-2 py-0.5">
+            <span class="text-white text-xs">Etapa 1</span>
+          </div>
+        </div>
+
+        <!-- Small item: Insulation ceiling -->
+        <div class="relative overflow-hidden rounded-2xl gallery-item cursor-pointer" style="min-height: 130px;">
+          <div class="w-full h-full bg-gradient-to-br from-sand-600 to-sand-800 flex items-center justify-center" style="min-height: 130px;">
+            <div class="text-center p-3">
+              <div class="w-10 h-10 mx-auto mb-2 opacity-40">
+                <svg viewBox="0 0 40 40" fill="none" class="w-full h-full">
+                  <rect x="4" y="8" width="32" height="20" rx="2" fill="rgba(180,140,90,0.8)"/>
+                  <line x1="13" y1="8" x2="13" y2="28" stroke="rgba(140,120,80,0.6)" stroke-width="1.5"/>
+                  <line x1="22" y1="8" x2="22" y2="28" stroke="rgba(140,120,80,0.6)" stroke-width="1.5"/>
+                  <line x1="31" y1="8" x2="31" y2="28" stroke="rgba(140,120,80,0.6)" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <p class="text-white text-xs opacity-50">Aislamiento en techo</p>
+            </div>
+          </div>
+          <div class="gallery-overlay absolute inset-0 bg-sand-700/80 flex items-center justify-center text-white">
+            <p class="font-semibold text-sm">Aislamiento Techo</p>
+          </div>
+          <div class="absolute bottom-2 left-2 bg-steel-900/80 rounded px-2 py-0.5">
+            <span class="text-white text-xs">Etapa 2</span>
+          </div>
+        </div>
+
+        <!-- Small item: Wall insulation -->
+        <div class="relative overflow-hidden rounded-2xl gallery-item cursor-pointer" style="min-height: 130px;">
+          <div class="w-full h-full bg-gradient-to-br from-sand-500 to-sand-700 flex items-center justify-center" style="min-height: 130px;">
+            <div class="text-center p-3">
+              <p class="text-white text-xs opacity-50 mb-1">Aislamiento en paredes</p>
+              <div class="flex gap-1 justify-center">
+                <div class="w-2 h-8 bg-steel-400/50 rounded-sm"></div>
+                <div class="w-4 h-8 bg-sand-300/50 rounded-sm"></div>
+                <div class="w-2 h-8 bg-steel-400/50 rounded-sm"></div>
+                <div class="w-4 h-8 bg-sand-300/50 rounded-sm"></div>
+                <div class="w-2 h-8 bg-steel-400/50 rounded-sm"></div>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-overlay absolute inset-0 bg-sand-600/80 flex items-center justify-center text-white">
+            <p class="font-semibold text-sm">Aislamiento Muros</p>
+          </div>
+          <div class="absolute bottom-2 left-2 bg-steel-900/80 rounded px-2 py-0.5">
+            <span class="text-white text-xs">Etapa 2</span>
+          </div>
+        </div>
+
+        <!-- Small item: Interior kitchen -->
+        <div class="relative overflow-hidden rounded-2xl gallery-item cursor-pointer" style="min-height: 130px;">
+          <div class="w-full h-full bg-gradient-to-br from-sand-200 to-steel-300 flex items-center justify-center" style="min-height: 130px;">
+            <div class="text-center p-3">
+              <svg viewBox="0 0 40 40" fill="none" class="w-10 h-10 mx-auto mb-1 opacity-50">
+                <rect x="4" y="22" width="32" height="12" rx="2" fill="#8a7060"/>
+                <rect x="6" y="14" width="28" height="8" rx="1" fill="#a08070"/>
+                <rect x="4" y="18" width="32" height="2" fill="rgba(255,255,255,0.4)"/>
+              </svg>
+              <p class="text-steel-700 text-xs opacity-60">Terminación interior</p>
+            </div>
+          </div>
+          <div class="gallery-overlay absolute inset-0 bg-steel-600/80 flex items-center justify-center text-white">
+            <p class="font-semibold text-sm">Interior Terminado</p>
+          </div>
+          <div class="absolute bottom-2 left-2 bg-steel-900/80 rounded px-2 py-0.5">
+            <span class="text-white text-xs">Etapa 3</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-center text-steel-500 text-sm mt-6">
+        💡 <strong class="text-steel-300">Nota para el desarrollador:</strong> Reemplazá los placeholders con las fotos reales en la carpeta <code class="bg-steel-800 px-1.5 py-0.5 rounded text-xs text-accent">/img/gallery/</code>
+      </p>
+
+      <!-- CTA below gallery -->
+      <div class="text-center mt-12">
+        <a href="#contacto" class="inline-flex items-center gap-3 bg-accent hover:bg-orange-600 text-white font-bold text-lg px-10 py-5 rounded-xl transition-all duration-200 shadow-xl shadow-orange-900/30 hover:-translate-y-0.5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Quiero una obra como esta
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOSOTROS / TRUST ===================== -->
+  <section id="nosotros" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <!-- Left -->
+        <div>
+          <span class="inline-block bg-sand-100 text-sand-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-4">¿Por qué elegirnos?</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-steel-800 mb-6">
+            Más de una Década<br/>
+            <span class="text-accent">Transformando el Hábitat.</span>
+          </h2>
+          <p class="text-steel-500 text-lg leading-relaxed mb-8">
+            Somos especialistas en sistemas de Steel Framing con integración de aislamiento proyectado. No somos una constructora genérica — somos un equipo técnico que domina cada fase del proceso y garantiza resultados.
+          </p>
+
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2" class="w-5 h-5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div>
+                <p class="font-bold text-steel-800">Equipo técnico certificado</p>
+                <p class="text-steel-500 text-sm mt-1">Profesionales formados en sistemas Steel Framing con capacitación específica en aplicación de aislamientos proyectados.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2" class="w-5 h-5"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+              </div>
+              <div>
+                <p class="font-bold text-steel-800">Gestión integral del proyecto</p>
+                <p class="text-steel-500 text-sm mt-1">Nos encargamos de todo: proyecto, permisos, materiales, construcción y terminaciones. Un solo interlocutor para toda la obra.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2" class="w-5 h-5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <p class="font-bold text-steel-800">Garantía en materiales y mano de obra</p>
+                <p class="text-steel-500 text-sm mt-1">Garantía estructural sobre la obra. Los materiales de acero y aislamiento tienen certificación de calidad con respaldo técnico.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Stats & testimonial -->
+        <div class="space-y-6">
+          <!-- Stats grid -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-steel-50 rounded-2xl p-6 border border-steel-100">
+              <div class="text-4xl font-black text-accent mb-1">50+</div>
+              <div class="text-steel-600 text-sm font-medium">Viviendas entregadas</div>
+            </div>
+            <div class="bg-steel-50 rounded-2xl p-6 border border-steel-100">
+              <div class="text-4xl font-black text-steel-700 mb-1">10+</div>
+              <div class="text-steel-600 text-sm font-medium">Años de experiencia</div>
+            </div>
+            <div class="bg-sand-50 rounded-2xl p-6 border border-sand-200">
+              <div class="text-4xl font-black text-sand-600 mb-1">100%</div>
+              <div class="text-steel-600 text-sm font-medium">Obras terminadas en plazo</div>
+            </div>
+            <div class="bg-accent/5 rounded-2xl p-6 border border-accent/20">
+              <div class="text-4xl font-black text-accent mb-1">4.9★</div>
+              <div class="text-steel-600 text-sm font-medium">Satisfacción de clientes</div>
+            </div>
+          </div>
+
+          <!-- Testimonial -->
+          <div class="bg-gradient-to-br from-steel-800 to-steel-900 rounded-2xl p-6 text-white">
+            <div class="flex gap-1 mb-3">
+              <span class="text-yellow-400">★★★★★</span>
+            </div>
+            <p class="text-steel-200 text-sm leading-relaxed italic mb-4">
+              "Nunca imaginé que en 60 días tendría mi casa terminada. El aislamiento es increíble, en verano no necesito aire acondicionado la mayor parte del día. La inversión más inteligente que hicimos."
+            </p>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-sand-400 rounded-full flex items-center justify-center">
+                <span class="text-white font-bold text-sm">MR</span>
+              </div>
+              <div>
+                <p class="font-semibold text-sm">Marcela R.</p>
+                <p class="text-steel-400 text-xs">Salta Capital — Vivienda 65 m²</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMPARATIVA ===================== -->
+  <section class="py-16 bg-steel-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-black text-steel-800">Steel Framing vs. Construcción Tradicional</h2>
+        <p class="text-steel-500 mt-2">La diferencia en números concretos</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-steel-100 overflow-hidden">
+        <div class="grid grid-cols-3 bg-steel-800 text-white text-sm font-semibold">
+          <div class="p-4">Aspecto</div>
+          <div class="p-4 text-center bg-accent">Steel Framing</div>
+          <div class="p-4 text-center text-steel-300">Ladrillo convencional</div>
+        </div>
+        <div class="divide-y divide-steel-100">
+          <div class="grid grid-cols-3 text-sm">
+            <div class="p-4 font-medium text-steel-700">Tiempo de obra</div>
+            <div class="p-4 text-center text-accent font-bold bg-accent/5">60–90 días</div>
+            <div class="p-4 text-center text-steel-500">6–18 meses</div>
+          </div>
+          <div class="grid grid-cols-3 text-sm bg-steel-50">
+            <div class="p-4 font-medium text-steel-700">Ahorro energético</div>
+            <div class="p-4 text-center text-accent font-bold bg-accent/5">Hasta 40%</div>
+            <div class="p-4 text-center text-steel-500">Estándar</div>
+          </div>
+          <div class="grid grid-cols-3 text-sm">
+            <div class="p-4 font-medium text-steel-700">Peso estructural</div>
+            <div class="p-4 text-center text-accent font-bold bg-accent/5">Muy liviano</div>
+            <div class="p-4 text-center text-steel-500">Pesado</div>
+          </div>
+          <div class="grid grid-cols-3 text-sm bg-steel-50">
+            <div class="p-4 font-medium text-steel-700">Residuos generados</div>
+            <div class="p-4 text-center text-accent font-bold bg-accent/5">Mínimos</div>
+            <div class="p-4 text-center text-steel-500">Altos</div>
+          </div>
+          <div class="grid grid-cols-3 text-sm">
+            <div class="p-4 font-medium text-steel-700">Aislamiento acústico</div>
+            <div class="p-4 text-center text-accent font-bold bg-accent/5">Superior</div>
+            <div class="p-4 text-center text-steel-500">Básico</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FORMULARIO DE CONTACTO ===================== -->
+  <section id="contacto" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
+
+        <!-- Left: Info -->
+        <div>
+          <span class="inline-block bg-accent/10 text-accent text-sm font-semibold px-4 py-1.5 rounded-full mb-4">Contacto & Presupuesto</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-steel-800 mb-6">
+            Empezá tu Obra Hoy.
+            <br/><span class="text-accent">Presupuesto sin cargo.</span>
+          </h2>
+          <p class="text-steel-500 text-lg leading-relaxed mb-8">
+            Contanos tu proyecto y en menos de 24hs te enviamos una propuesta técnica detallada. Sin compromisos. Con números reales.
+          </p>
+
+          <div class="space-y-5 mb-8">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-steel-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#404d58" stroke-width="2" class="w-6 h-6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-steel-400 uppercase font-semibold tracking-wide">WhatsApp / Teléfono</p>
+                <p class="text-steel-800 font-semibold">+54 (387) XXX-XXXX</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-steel-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#404d58" stroke-width="2" class="w-6 h-6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-steel-400 uppercase font-semibold tracking-wide">Email</p>
+                <p class="text-steel-800 font-semibold">info@steelbuild.com.ar</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-steel-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#404d58" stroke-width="2" class="w-6 h-6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-steel-400 uppercase font-semibold tracking-wide">Zona de operación</p>
+                <p class="text-steel-800 font-semibold">Salta, NOA y región</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Response promise -->
+          <div class="bg-accent/5 border border-accent/20 rounded-xl p-5 flex items-center gap-4">
+            <div class="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="2" class="w-5 h-5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <p class="font-bold text-steel-800 text-sm">Respondemos en menos de 24 hs hábiles</p>
+              <p class="text-steel-500 text-xs mt-0.5">Presupuesto detallado, sin cargo y sin compromiso</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="bg-steel-50 rounded-2xl p-8 border border-steel-100">
+          <h3 class="text-xl font-bold text-steel-800 mb-6">Solicitar Presupuesto</h3>
+          <form id="contact-form" class="space-y-5" onsubmit="handleSubmit(event)">
+
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-steel-700 text-sm font-semibold mb-1.5" for="nombre">Nombre completo *</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez" required
+                  class="form-input w-full bg-white border border-steel-200 rounded-xl px-4 py-3 text-steel-800 text-sm placeholder:text-steel-300 transition-all" />
+              </div>
+              <div>
+                <label class="block text-steel-700 text-sm font-semibold mb-1.5" for="telefono">Teléfono / WhatsApp *</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+54 387 ..." required
+                  class="form-input w-full bg-white border border-steel-200 rounded-xl px-4 py-3 text-steel-800 text-sm placeholder:text-steel-300 transition-all" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-steel-700 text-sm font-semibold mb-1.5" for="email">Correo electrónico *</label>
+              <input type="email" id="email" name="email" placeholder="juan@email.com" required
+                class="form-input w-full bg-white border border-steel-200 rounded-xl px-4 py-3 text-steel-800 text-sm placeholder:text-steel-300 transition-all" />
+            </div>
+
+            <div>
+              <label class="block text-steel-700 text-sm font-semibold mb-1.5" for="localidad">Localidad de la obra *</label>
+              <input type="text" id="localidad" name="localidad" placeholder="Salta Capital, Cerrillos, etc." required
+                class="form-input w-full bg-white border border-steel-200 rounded-xl px-4 py-3 text-steel-800 text-sm placeholder:text-steel-300 transition-all" />
+            </div>
+
+            <div>
+              <label class="block text-steel-700 text-sm font-semibold mb-1.5" for="tipo_proyecto">Tipo de proyecto</label>
+              <select id="tipo_proyecto" name="tipo_proyecto"
+                class="form-input w-full bg-white border border-steel-200 rounded-xl px-4 py-3 text-steel-800 text-sm transition-all appearance-none">
+                <option value="">Seleccioná una opción</option>
+                <option value="vivienda_nueva">Vivienda nueva</option>
+                <option value="ampliacion">Ampliación</option>
+                <option value="local_comercial">Local comercial</option>
+                <option value="galpon_industrial">Galpón / Industrial</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-steel-700 text-sm font-semibold mb-1.5" for="superficie">Superficie estimada (m²)</label>
+              <div class="grid grid-cols-4 gap-2">
+                <label class="cursor-pointer">
+                  <input type="radio" name="superficie" value="Menos de 50m²" class="sr-only peer"/>
+                  <div class="bg-white border border-steel-200 rounded-lg px-2 py-2.5 text-center text-xs font-medium text-steel-600 peer-checked:bg-accent peer-checked:border-accent peer-checked:text-white transition-all hover:border-accent/40">
+                    &lt; 50m²
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="superficie" value="50–100m²" class="sr-only peer"/>
+                  <div class="bg-white border border-steel-200 rounded-lg px-2 py-2.5 text-center text-xs font-medium text-steel-600 peer-checked:bg-accent peer-checked:border-accent peer-checked:text-white transition-all hover:border-accent/40">
+                    50–100m²
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="superficie" value="100–200m²" class="sr-only peer"/>
+                  <div class="bg-white border border-steel-200 rounded-lg px-2 py-2.5 text-center text-xs font-medium text-steel-600 peer-checked:bg-accent peer-checked:border-accent peer-checked:text-white transition-all hover:border-accent/40">
+                    100–200m²
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="superficie" value="+200m²" class="sr-only peer"/>
+                  <div class="bg-white border border-steel-200 rounded-lg px-2 py-2.5 text-center text-xs font-medium text-steel-600 peer-checked:bg-accent peer-checked:border-accent peer-checked:text-white transition-all hover:border-accent/40">
+                    +200m²
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-steel-700 text-sm font-semibold mb-1.5" for="mensaje">Contanos más sobre tu proyecto</label>
+              <textarea id="mensaje" name="mensaje" rows="4" placeholder="Describí brevemente qué necesitás: tipo de construcción, urgencias, preguntas..."
+                class="form-input w-full bg-white border border-steel-200 rounded-xl px-4 py-3 text-steel-800 text-sm placeholder:text-steel-300 transition-all resize-none"></textarea>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <input type="checkbox" id="acepto" name="acepto" required class="mt-1 w-4 h-4 accent-[#e85d04] flex-shrink-0" />
+              <label for="acepto" class="text-steel-500 text-xs leading-relaxed">
+                Acepto que mis datos sean utilizados para contactarme con información sobre el presupuesto solicitado. No compartiremos tu información con terceros.
+              </label>
+            </div>
+
+            <button type="submit" id="submit-btn"
+              class="w-full bg-accent hover:bg-orange-600 text-white font-bold text-base py-4 rounded-xl transition-all duration-200 shadow-lg shadow-orange-900/20 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+              <span id="btn-text">Enviar mi Consulta Gratis</span>
+              <svg id="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+
+            <!-- Success message -->
+            <div id="success-msg" class="hidden bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+              <div class="text-green-600 text-lg mb-1">✅</div>
+              <p class="text-green-700 font-semibold text-sm">¡Consulta enviada con éxito!</p>
+              <p class="text-green-600 text-xs mt-1">Te respondemos en menos de 24 hs hábiles.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-steel-900 text-steel-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+        <!-- Brand -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" class="w-6 h-6">
+                <path d="M3 21V8l9-5 9 5v13" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 21V12h6v9" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="3" y1="21" x2="21" y2="21" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="text-white font-extrabold text-xl">Steel<span class="text-accent">Build</span></span>
+          </div>
+          <p class="text-sm leading-relaxed mb-4">
+            Especialistas en construcción en seco con Steel Framing y aislamientos termoacústicos proyectados de alta eficiencia.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="w-9 h-9 bg-steel-800 hover:bg-accent rounded-lg flex items-center justify-center transition-colors" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" class="w-4 h-4"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="w-9 h-9 bg-steel-800 hover:bg-accent rounded-lg flex items-center justify-center transition-colors" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" class="w-4 h-4"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://wa.me/543870000000" target="_blank" class="w-9 h-9 bg-steel-800 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="white" class="w-4 h-4"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.5 2.25C6.383 2.25 2.25 6.383 2.25 11.5c0 1.624.421 3.15 1.154 4.474L2.25 21.75l5.923-1.547A9.25 9.25 0 0 0 11.5 20.75c5.117 0 9.25-4.133 9.25-9.25S16.617 2.25 11.5 2.25z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div>
+          <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Navegación</h4>
+          <ul class="space-y-3">
+            <li><a href="#proceso" class="hover:text-white text-sm transition-colors">Proceso constructivo</a></li>
+            <li><a href="#beneficios" class="hover:text-white text-sm transition-colors">Beneficios técnicos</a></li>
+            <li><a href="#galeria" class="hover:text-white text-sm transition-colors">Galería de obras</a></li>
+            <li><a href="#nosotros" class="hover:text-white text-sm transition-colors">Quiénes somos</a></li>
+            <li><a href="#contacto" class="hover:text-white text-sm transition-colors">Contacto & Presupuesto</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Contacto directo</h4>
+          <div class="space-y-3">
+            <p class="text-sm flex items-center gap-2">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-accent flex-shrink-0"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+              +54 (387) XXX-XXXX
+            </p>
+            <p class="text-sm flex items-center gap-2">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-accent flex-shrink-0"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+              info@steelbuild.com.ar
+            </p>
+            <p class="text-sm flex items-start gap-2">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-accent flex-shrink-0 mt-0.5"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              Salta Capital y región NOA
+            </p>
+          </div>
+
+          <div class="mt-6">
+            <a href="#contacto" class="inline-block bg-accent hover:bg-orange-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors">
+              Cotizá tu obra →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-steel-700 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-steel-500">© 2025 SteelBuild. Todos los derechos reservados.</p>
+        <p class="text-xs text-steel-600">Especialistas en Steel Framing y Aislamientos Termoacústicos Proyectados</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp floating button -->
+  <a href="https://wa.me/543870000000?text=Hola!%20Vi%20su%20web%20y%20quisiera%20consultar%20sobre%20un%20presupuesto%20de%20obra." 
+     target="_blank"
+     class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 hover:scale-110"
+     aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white" class="w-7 h-7">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M11.5 2.25C6.383 2.25 2.25 6.383 2.25 11.5c0 1.624.421 3.15 1.154 4.474L2.25 21.75l5.923-1.547A9.25 9.25 0 0011.5 20.75c5.117 0 9.25-4.133 9.25-9.25S16.617 2.25 11.5 2.25z"/>
+    </svg>
+  </a>
+
+  <script>
+    // ---- Navbar scroll behavior ----
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('nav-scrolled');
+        navbar.classList.remove('py-4');
+        navbar.classList.add('py-2');
+      } else {
+        navbar.classList.remove('nav-scrolled');
+        navbar.classList.remove('py-2');
+        navbar.classList.add('py-4');
+      }
+    });
+
+    // ---- Mobile menu toggle ----
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('open');
+      mobileMenu.classList.toggle('open', !isOpen);
+      iconOpen.classList.toggle('hidden', !isOpen);
+      iconClose.classList.toggle('hidden', isOpen);
+    });
+
+    // Close mobile menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      });
+    });
+
+    // ---- Form submission ----
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const btnText = document.getElementById('btn-text');
+      const btnIcon = document.getElementById('btn-icon');
+      const successMsg = document.getElementById('success-msg');
+
+      // Loading state
+      btn.disabled = true;
+      btn.classList.add('opacity-75');
+      btnText.textContent = 'Enviando...';
+      btnIcon.innerHTML = '<circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none" stroke-dasharray="31.4" stroke-dashoffset="10" class="animate-spin"/>';
+
+      // Simulate send (replace with real integration: Formspree, EmailJS, etc.)
+      setTimeout(() => {
+        btn.style.display = 'none';
+        successMsg.classList.remove('hidden');
+        document.getElementById('contact-form').reset();
+      }, 1500);
+    }
+
+    // ---- Smooth reveal on scroll ----
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card-lift').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease';
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>
